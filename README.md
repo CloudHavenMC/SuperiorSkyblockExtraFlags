@@ -1,5 +1,5 @@
 # SuperiorSkyblockExtraFlags
-Plugin adding extra island flags and privileges for [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2).
+Plugin adding extra island flags and privileges for [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2). Made for version 1.17.1 but might work with other ones.
 
 # List of extra island flags and privileges
 ## Flags (settings)
