@@ -1,0 +1,9 @@
+# SuperiorSkyblockExtraFlags by Ynfuien
+
+# Prefix for hex colors
+# Default: '&#'
+hex-prefix: '&#'
+
+# Message that will appear when the player isn't allowed to do something on island
+# Default: '&c&lError | &7This island is protected.'
+island-protected-message: '&c&lError | &7This island is protected.'

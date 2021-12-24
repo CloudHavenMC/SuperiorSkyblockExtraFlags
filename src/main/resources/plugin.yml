@@ -1,0 +1,8 @@
+name: SuperiorSkyblockExtraFlags
+version: '${project.version}'
+main: pl.ynfuien.superiorskyblockextraflags.SuperiorSkyblockExtraFlags
+website: https://github.com/Ynfuien/SuperiorSkyblockExtraFlags
+api-version: 1.17
+loadbefore: [SuperiorSkyblock2]
+author: Ynfuien
+description: Addon for SuperiorSkyblock2 with additional island settings and permissions!
