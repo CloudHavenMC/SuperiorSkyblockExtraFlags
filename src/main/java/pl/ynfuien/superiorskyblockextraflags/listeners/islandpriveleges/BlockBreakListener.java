@@ -37,6 +37,11 @@ public class BlockBreakListener implements Listener {
 
         Material material = bd.getMaterial();
 
+        if (material.name().endsWith("SHULKER_BOX")) {
+            return "USE_SHULKER_BOXES";
+        }
+
+
         if (Arrays.asList(
                         Material.ANVIL,
                         Material.CHIPPED_ANVIL,
@@ -47,7 +52,9 @@ public class BlockBreakListener implements Listener {
 
         Set<Material> usableBlocks = Set.of(
                 Material.BELL,
+                Material.BEACON,
                 Material.BARREL,
+                Material.BREWING_STAND,
                 Material.COMPOSTER,
                 Material.ENDER_CHEST,
                 Material.HOPPER,

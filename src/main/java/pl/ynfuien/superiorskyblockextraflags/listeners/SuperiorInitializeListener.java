@@ -6,11 +6,14 @@ import com.bgsoftware.superiorskyblock.api.island.IslandPrivilege;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
 import pl.ynfuien.superiorskyblockextraflags.SuperiorSkyblockExtraFlags;
 import pl.ynfuien.superiorskyblockextraflags.listeners.islandflags.CreatureSpawnListener;
 import pl.ynfuien.superiorskyblockextraflags.listeners.islandpriveleges.*;
 import pl.ynfuien.superiorskyblockextraflags.utils.Util;
+
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class SuperiorInitializeListener implements Listener {
@@ -31,13 +34,26 @@ public class SuperiorInitializeListener implements Listener {
             "USE_FENCE_GATES",
             "USE_FURNACES",
             "USE_CHESTS",
+            "USE_SHULKER_BOXES",
             "USE_BEDS",
+            "USE_CANDLES",
             "COLLECT_SWEET_BERRIES",
             "COLLECT_GLOW_BERRIES",
             "USE_ANVILS",
             "USE_BELLS",
+            "USE_BEACONS",
             "USE_BARRELS",
+            "USE_BREWING_STANDS",
+            "USE_LEVERS",
+            "USE_REPEATERS",
+            "USE_COMPARATORS",
+            "USE_DAYLIGHT_DETECTORS",
+            "USE_NOTE_BLOCKS",
+            "USE_JUKEBOXES",
+            "USE_TRIPWIRES",
             "USE_COMPOSTERS",
+            "USE_FLOWER_POTS",
+            "USE_CAULDRONS",
             "USE_ENDER_CHESTS",
             "USE_ENCHANTING_TABLES",
             "USE_HOPPERS",
@@ -48,35 +64,56 @@ public class SuperiorInitializeListener implements Listener {
             "USE_ITEM_FRAMES",
             "ROTATE_ITEM_FRAME_ITEMS",
             "USE_DRIPLEAF",
+            "SHOOT_BOW",
+            "SHOOT_CROSSBOW",
+            "THROW_EGGS",
+            "THROW_SNOWBALLS",
+            "THROW_POTIONS",
+            "USE_LECTERNS",
+            "EAT_CAKE",
+            "PAT_DRAGON_EGG",
+            "CARVE_PUMPKINS",
     };
 
     @EventHandler
     public void onPluginInit(PluginInitializeEvent e){
+        Util.log("&bSuperiorInitializeEvent...");
 
         for (String islandFlag : islandFlags) {
             IslandFlag.register(islandFlag);
-
-            Util.log("Registered island flag: " + IslandFlag.getByName(islandFlag).getName());
         }
+        Util.log(MessageFormat.format("&3Registered &e{0} &3island flags!", islandFlags.length));
 
         for (String islandPrivilege : islandPrivileges) {
             IslandPrivilege.register(islandPrivilege);
+        }
+        Util.log(MessageFormat.format("&3Registered &e{0} &3island privileges!", islandPrivileges.length));
 
-            Util.log("Registered island permission: " + IslandPrivilege.getByName(islandPrivilege).getName());
+
+        // Registering listeners for island flags and privileges
+        List<Listener> listeners = Arrays.asList(
+                // Listener for island flags
+                new CreatureSpawnListener(),
+                // Listeners for island privileges
+                new BlockBreakListener(),
+                new PlayerInteractListener(),
+                new PlayerInteractEntityListener(),
+                new EntityDamageByEntityListener(),
+                new PlayerArmorStandManipulateListener(),
+                new HangingBreakByEntityListener(),
+                new ProjectileHitListener(),
+                new ProjectileLaunchListener(),
+                new EntityShootBowListener(),
+                new PlayerTakeLecternBookListener()
+        );
+
+        for (Listener listener : listeners) {
+            Bukkit.getPluginManager().registerEvents(listener, instance);
         }
 
+        Util.log(MessageFormat.format("&3Registered &e{0} &3listeners!", listeners.size()));
 
-        PluginManager pm = Bukkit.getServer().getPluginManager();
 
-        // Register events for island flags
-        pm.registerEvents(new CreatureSpawnListener(), instance);
-
-        // Register events for island privileges
-        pm.registerEvents(new BlockBreakListener(), instance);
-        pm.registerEvents(new PlayerInteractListener(), instance);
-        pm.registerEvents(new PlayerInteractEntityListener(), instance);
-        pm.registerEvents(new EntityDamageByEntityListener(), instance);
-        pm.registerEvents(new PlayerArmorStandManipulateListener(), instance);
-        pm.registerEvents(new HangingBreakByEntityListener(), instance);
+        Util.log("&aSuccessfully &bregistered all necessary things!");
     }
 }

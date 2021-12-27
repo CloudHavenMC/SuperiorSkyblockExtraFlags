@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>latest</version>
+            <version>latest </version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

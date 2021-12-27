@@ -1,6 +1,5 @@
 package pl.ynfuien.superiorskyblockextraflags;
 
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.ynfuien.superiorskyblockextraflags.listeners.SuperiorInitializeListener;
@@ -15,7 +14,7 @@ public final class SuperiorSkyblockExtraFlags extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
 
         if (pm.getPlugin("SuperiorSkyblock2") == null) {
-            Util.log(Util.formatColors("&cThere is no SuperiorSkyblock2 on your server! Plugin can't work without it."));
+            Util.log("&cThere is no SuperiorSkyblock2 on your server! Plugin can't work without it.");
             pm.disablePlugin(this);
             return;
         }

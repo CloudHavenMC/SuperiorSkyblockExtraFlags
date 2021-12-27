@@ -13,19 +13,41 @@ These flags enables or disables natural monster spawn separately for each world.
 - **USE_BUTTONS** - Allows to use buttons
 - **USE_DOORS** - Allows to use doors
 - **USE_TRAPDOORS** - And so on...
+- **USE_PRESSURE_PLATES**
+- **USE_LEVERS**
+- **USE_REPEATERS**
+- **USE_COMPARATORS**
+- **USE_DAYLIGHT_DETECTORS**
+- **USE_JUKEBOXES**
 - **USE_FENCE_GATES**
 - **USE_BEDS**
 - **USE_DRIPLEAF**
-- **USE_ANVILS**
 - **USE_BELLS**
-- **USE_BARRELS**
 - **USE_COMPOSTERS**
-- **USE_ENDER_CHESTS**
+- **USE_CAULDRONS**
+- **USE_FLOWER_POTS**
+- **USE_ANVILS**
+- **USE_BEACONS**
 - **USE_ENCHANTING_TABLES**
+- **USE_BREWING_STANDS**
+- **USE_ENDER_CHESTS**
+- **USE_BARRELS**
+- **USE_SHULKER_BOXES**
 - **USE_HOPPERS**
 - **USE_DISPENSERS**
 - **USE_DROPPERS**
-- **USE_PRESSURE_PLATES**
+- **SHOOT_CROSSBOW**
+- **SHOOT_BOW**
+- **THROW_EGGS**
+- **THROW_SNOWBALLS**
+- **THROW_POTIONS**
+- **EAT_CAKE**
+- **PAT_DRAGON_EGG**
+- **CARVE_PUMPKINS**
+- **USE_LECTERNS** - Allows to change book on lectern
+- **USE_TRIPWIRES** - Allows to activate tripwire by standing on it
+- **USE_NOTE_BLOCKS** - Allows to increases the note pitch up
+- **USE_CANDLES** - Allows to lit and extinguish candles (also on cake)
 - **USE_FURNACES** - Allows to use furnace, blast furnace and smoker
 - **USE_CHESTS** - Allows to use chest and trapped chest
 - **USE_ARMOR_STANDS** - Allows to manipulate armor stand equipment
@@ -34,7 +56,7 @@ These flags enables or disables natural monster spawn separately for each world.
 - **COLLECT_GLOW_BERRIES** - Allows to collect glow berries from cave vines
 - **ROTATE_ITEM_FRAME_ITEMS** - Allows to rotate item in item frame
 
-**Some privileges also deny from destroy block/entity even if player has `BREAK` privilege. These privileges are: `USE_ANVILS`, `USE_BELLS`, `USE_BARRELS`, `USE_COMPOSTERS`, `USE_ENDER_CHESTS`, `USE_ENCHANTING_TABLES`, `USE_HOPPERS`, `USE_DISPENSERS`, `USE_DROPPERS`, `USE_PRESSURE_PLATES`, `USE_FURNACES`, `USE_CHESTS`, `USE_ARMOR_STANDS`, `USE_ITEM_FRAMES`**
+**Some privileges also deny from destroy block/entity even if player has `BREAK` privilege. These privileges are: `USE_ANVILS`, `USE_BELLS`, `USE_BEACONS`, `USE_BARRELS`, `USE_BREWING_STANDS`, `USE_COMPOSTERS`, `USE_SHULKER_BOXES`, `USE_ENDER_CHESTS`, `USE_ENCHANTING_TABLES`, `USE_HOPPERS`, `USE_DISPENSERS`, `USE_DROPPERS`, `USE_PRESSURE_PLATES`, `USE_FURNACES`, `USE_CHESTS`, `USE_ARMOR_STANDS`, `USE_ITEM_FRAMES`**
 
 # How to use
 ## Default flags and privileges

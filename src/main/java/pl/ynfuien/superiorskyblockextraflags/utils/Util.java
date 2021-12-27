@@ -27,10 +27,15 @@ public class Util {
     }
 
     public static void log(String message) {
+        instance.getLogger().info(formatColors(message));
+    }
+    public static void logRaw(String message) {
         instance.getLogger().info(message);
     }
 
     public static String formatColors(String text) {
+        if (text == null) return "null";
+
         Pattern pattern = Pattern.compile(hexPrefix + "[a-f0-9]{6}", Pattern.CASE_INSENSITIVE);
 
         Matcher matcher = pattern.matcher(text);
