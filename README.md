@@ -42,6 +42,7 @@ These flags enables or disables natural monster spawn separately for each world.
 - **THROW_SNOWBALLS**
 - **THROW_POTIONS**
 - **EAT_CAKE**
+- **EAT_CHORUS_FRUIT**
 - **PAT_DRAGON_EGG**
 - **CARVE_PUMPKINS**
 - **USE_LECTERNS** - Allows to change book on lectern

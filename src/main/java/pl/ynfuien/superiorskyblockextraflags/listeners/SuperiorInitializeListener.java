@@ -71,6 +71,7 @@ public class SuperiorInitializeListener implements Listener {
             "THROW_POTIONS",
             "USE_LECTERNS",
             "EAT_CAKE",
+            "EAT_CHORUS_FRUIT",
             "PAT_DRAGON_EGG",
             "CARVE_PUMPKINS",
     };
@@ -104,7 +105,8 @@ public class SuperiorInitializeListener implements Listener {
                 new ProjectileHitListener(),
                 new ProjectileLaunchListener(),
                 new EntityShootBowListener(),
-                new PlayerTakeLecternBookListener()
+                new PlayerTakeLecternBookListener(),
+                new PlayerItemConsumeListener()
         );
 
         for (Listener listener : listeners) {
