@@ -5,8 +5,7 @@ import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.island.IslandFlag;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -17,9 +16,7 @@ public class CreatureSpawnListener implements Listener {
     public void onCreatureSpawn(CreatureSpawnEvent e) {
         LivingEntity entity = e.getEntity();
 
-//        Util.log("Type: " + entity.getType() + ", monster: " + (entity instanceof Monster ? "true" : "false") + ", reason:" + e.getSpawnReason().name() + ", world: " + entity.getLocation().getWorld().getEnvironment().name());
-
-        if (!(entity instanceof Monster)) return;
+        if (!isMonster(entity)) return;
 
         if (!e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL)) return;
 
@@ -28,6 +25,7 @@ public class CreatureSpawnListener implements Listener {
         Island island = SuperiorSkyblockAPI.getIslandAt(location);
         if (island == null) return;
 
+        if (!e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL)) return;
         World.Environment environment = location.getWorld().getEnvironment();
 
 
@@ -42,5 +40,12 @@ public class CreatureSpawnListener implements Listener {
             e.setCancelled(true);
             return;
         }
+    }
+
+    public static boolean isMonster(Entity e) {
+        if (e instanceof Monster) return true;
+        if (e instanceof Slime) return true;
+        if (e instanceof Flying) return true;
+        return false;
     }
 }
