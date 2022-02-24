@@ -28,11 +28,11 @@ public class EntityShootBowListener implements Listener {
     private String getPermission(ItemStack item) {
         Material material = item.getType();
         if (material.equals(Material.BOW)) {
-            return "USE_BOW";
+            return "SHOOT_BOW";
         }
 
         if (material.equals(Material.CROSSBOW)) {
-            return "USE_CROSSBOW";
+            return "SHOOT_CROSSBOW";
         }
 
         return null;
