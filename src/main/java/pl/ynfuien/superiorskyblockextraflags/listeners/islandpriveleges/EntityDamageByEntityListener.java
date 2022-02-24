@@ -17,7 +17,7 @@ public class EntityDamageByEntityListener implements Listener {
         if (permission == null) return;
 
         Player p = (Player) e.getDamager();
-        boolean cancelEvent = Util.checkIslandPrivilege(entity.getLocation(), p, "USE_ITEM_FRAMES");
+        boolean cancelEvent = Util.checkIslandPrivilege(entity.getLocation(), p, permission);
 
         if (!cancelEvent) return;
         e.setCancelled(true);
