@@ -1,6 +1,6 @@
 # SuperiorSkyblockExtraFlags by Ynfuien
 
-# Prefix for hex colors
+# Prefix for hex colors in island-protected-message
 # Default: '&#'
 hex-prefix: '&#'
 

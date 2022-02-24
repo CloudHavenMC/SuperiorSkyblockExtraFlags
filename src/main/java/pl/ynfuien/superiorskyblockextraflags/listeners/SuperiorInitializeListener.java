@@ -9,11 +9,9 @@ import org.bukkit.event.Listener;
 import pl.ynfuien.superiorskyblockextraflags.SuperiorSkyblockExtraFlags;
 import pl.ynfuien.superiorskyblockextraflags.listeners.islandflags.CreatureSpawnListener;
 import pl.ynfuien.superiorskyblockextraflags.listeners.islandpriveleges.*;
-import pl.ynfuien.superiorskyblockextraflags.utils.Util;
+import pl.ynfuien.superiorskyblockextraflags.utils.Logger;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class SuperiorInitializeListener implements Listener {
@@ -22,11 +20,13 @@ public class SuperiorInitializeListener implements Listener {
         this.instance = instance;
     }
 
+    // Island flags array
     private String[] islandFlags = new String[] {
             "NATURAL_MONSTER_SPAWN_NORMAL",
             "NATURAL_MONSTER_SPAWN_NETHER",
             "NATURAL_MONSTER_SPAWN_THE_END"
     };
+    // Island privileges array
     private String[] islandPrivileges = new String[] {
             "USE_BUTTONS",
             "USE_DOORS",
@@ -78,44 +78,47 @@ public class SuperiorInitializeListener implements Listener {
 
     @EventHandler
     public void onPluginInit(PluginInitializeEvent e){
-        Util.log("&bSuperiorInitializeEvent...");
+        Logger.log("&bSuperiorInitializeEvent...");
 
+        // Register all island flags
         for (String islandFlag : islandFlags) {
             IslandFlag.register(islandFlag);
         }
-        Util.log(MessageFormat.format("&3Registered &e{0} &3island flags!", islandFlags.length));
+        Logger.log(MessageFormat.format("&3Registered &e{0} &3island flags!", islandFlags.length));
 
+        // Register all island privileges
         for (String islandPrivilege : islandPrivileges) {
             IslandPrivilege.register(islandPrivilege);
         }
-        Util.log(MessageFormat.format("&3Registered &e{0} &3island privileges!", islandPrivileges.length));
+        Logger.log(MessageFormat.format("&3Registered &e{0} &3island privileges!", islandPrivileges.length));
 
 
-        // Registering listeners for island flags and privileges
-        List<Listener> listeners = Arrays.asList(
-                // Listener for island flags
-                new CreatureSpawnListener(),
-                // Listeners for island privileges
-                new BlockBreakListener(),
-                new PlayerInteractListener(),
-                new PlayerInteractEntityListener(),
-                new EntityDamageByEntityListener(),
-                new PlayerArmorStandManipulateListener(),
-                new HangingBreakByEntityListener(),
-                new ProjectileHitListener(),
-                new ProjectileLaunchListener(),
-                new EntityShootBowListener(),
-                new PlayerTakeLecternBookListener(),
-                new PlayerItemConsumeListener()
-        );
+        // Listeners for island flags and privileges
+        Listener[] listeners = new Listener[] {
+            // Listener for island flags
+            new CreatureSpawnListener(),
+            // Listeners for island privileges
+            new BlockBreakListener(),
+            new PlayerInteractListener(),
+            new PlayerInteractEntityListener(),
+            new EntityDamageByEntityListener(),
+            new PlayerArmorStandManipulateListener(),
+            new HangingBreakByEntityListener(),
+            new ProjectileHitListener(),
+            new ProjectileLaunchListener(),
+            new EntityShootBowListener(),
+            new PlayerTakeLecternBookListener(),
+            new PlayerItemConsumeListener()
+        };
 
+        // Register listeners
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, instance);
         }
 
-        Util.log(MessageFormat.format("&3Registered &e{0} &3listeners!", listeners.size()));
+        Logger.log(MessageFormat.format("&3Registered &e{0} &3listeners!", listeners.length));
 
 
-        Util.log("&aSuccessfully &bregistered all necessary things!");
+        Logger.log("&aSuccessfully &bregistered all necessary things!");
     }
 }
