@@ -36,6 +36,7 @@ These flags enables or disables natural monster spawn separately for each world.
 - **USE_HOPPERS**
 - **USE_DISPENSERS**
 - **USE_DROPPERS**
+- **USE_ELYTRA**
 - **SHOOT_CROSSBOW**
 - **SHOOT_BOW**
 - **THROW_EGGS**
