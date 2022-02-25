@@ -74,6 +74,7 @@ public class SuperiorInitializeListener implements Listener {
             "EAT_CHORUS_FRUIT",
             "PAT_DRAGON_EGG",
             "CARVE_PUMPKINS",
+            "USE_ELYTRA"
     };
 
     @EventHandler
@@ -108,7 +109,8 @@ public class SuperiorInitializeListener implements Listener {
             new ProjectileLaunchListener(),
             new EntityShootBowListener(),
             new PlayerTakeLecternBookListener(),
-            new PlayerItemConsumeListener()
+            new PlayerItemConsumeListener(),
+            new EntityToggleGlideListener()
         };
 
         // Register listeners
