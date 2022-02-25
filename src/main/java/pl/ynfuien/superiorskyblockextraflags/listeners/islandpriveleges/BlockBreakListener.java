@@ -13,35 +13,61 @@ import java.util.Arrays;
 import java.util.Set;
 
 public class BlockBreakListener implements Listener {
+    // Island privileges that this event handles:
+    // - USE_FURNACES
+    // - USE_CHESTS
+    // - USE_SHULKER_BOXES
+    // - USE_ANVILS
+    // - USE_BELLS
+    // - USE_BEACONS
+    // - USE_BARRELS
+    // - USE_BREWING_STANDS
+    // - USE_COMPOSTERS
+    // - USE_ENDER_CHESTS
+    // - USE_HOPPERS
+    // - USE_DISPENSERS
+    // - USE_DROPPERS
+
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
+        // Get block
         Block b = e.getBlock();
 
+        // Get island privilege
         String permission = getPermission(b.getBlockData());
+        // Return if no privilege was returned
         if (permission == null) return;
+        // Check whether to cancel event
         boolean cancelEvent = Util.checkIslandPrivilege(b.getLocation(), e.getPlayer(), permission);
 
+        // Return if not cancel event
         if (!cancelEvent) return;
+        // Cancel event
         e.setCancelled(true);
     }
 
     // Get appropriate permission to the appropriate block type
     private String getPermission(BlockData bd) {
+        // Return privilege for furnaces
         if (bd instanceof Furnace) {
             return "USE_FURNACES";
         }
 
+        // Return privilege for chests
         if (bd instanceof Chest) {
             return "USE_CHESTS";
         }
 
+        // Get block material
         Material material = bd.getMaterial();
 
+        // Return privilege for shulker boxes
         if (material.name().endsWith("SHULKER_BOX")) {
             return "USE_SHULKER_BOXES";
         }
 
 
+        // Return privilege for anvils
         if (Arrays.asList(
                         Material.ANVIL,
                         Material.CHIPPED_ANVIL,
@@ -50,6 +76,7 @@ public class BlockBreakListener implements Listener {
             return "USE_ANVILS";
         }
 
+        // Materials that have privileges in format: USE_<material>S
         Set<Material> usableBlocks = Set.of(
                 Material.BELL,
                 Material.BEACON,
@@ -62,6 +89,7 @@ public class BlockBreakListener implements Listener {
                 Material.DROPPER
         );
 
+        // Return privilege for provided block
         if (usableBlocks.contains(bd.getMaterial())) {
             return "USE_" + material.name() + "S";
         }

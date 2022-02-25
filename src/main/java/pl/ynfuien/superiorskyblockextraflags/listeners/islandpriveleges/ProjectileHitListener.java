@@ -11,30 +11,33 @@ import org.bukkit.projectiles.ProjectileSource;
 import pl.ynfuien.superiorskyblockextraflags.utils.Util;
 
 public class ProjectileHitListener implements Listener {
+    // Island privileges that this event handles:
+    // - USE_BELLS
+
     @EventHandler(ignoreCancelled = true)
     public void onProjectileHit(ProjectileHitEvent e) {
+        // Get git block
         Block b = e.getHitBlock();
 
-        Projectile projectile = e.getEntity();
-        ProjectileSource shooter = projectile.getShooter();
+        // Return if hit block is null
+        if (b == null) return;
+        // Return if hit block isn't bell
+        if (!b.getType().equals(Material.BELL)) return;
+
+        // Get shooter
+        ProjectileSource shooter = e.getEntity().getShooter();
+        // Return if shooter isn't player
         if (!(shooter instanceof Player)) return;
+
+        // Get player
         Player p = (Player) shooter;
 
-        String permission = getPermission(b, projectile);
-        if (permission == null) return;
-        boolean cancelEvent = Util.checkIslandPrivilege(b.getLocation(), p, permission);
+        // Get whether to cancel event
+        boolean cancelEvent = Util.checkIslandPrivilege(b.getLocation(), p, "USE_BELLS");
 
+        // Return if not cancel event
         if (!cancelEvent) return;
+        // Cancel event
         e.setCancelled(true);
-    }
-
-    private String getPermission(Block b, Projectile p) {
-        if (b != null) {
-            if (b.getType().equals(Material.BELL)) {
-                return "USE_BELLS";
-            }
-        }
-
-        return null;
     }
 }
