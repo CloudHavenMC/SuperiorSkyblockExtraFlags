@@ -17,6 +17,7 @@ public class PlayerInteractEntityListener implements Listener {
     // - USE_ITEM_FRAMES
     // - ROTATE_ITEM_FRAME_ITEMS
     // - USE_ARMOR_STANDS
+    // - DYE_COLLARS
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerInteractEntity(PlayerInteractEntityEvent e) {
@@ -62,8 +63,7 @@ public class PlayerInteractEntityListener implements Listener {
 
             Tameable tameable = ((Tameable) e);
             if (!tameable.isTamed()) return null;
-//            if (tameable.getOwner() == null) return null;
-            if (tameable.getOwner().equals(p)) return null;
+            if (!tameable.isTamed() || tameable.getOwner().equals(p)) return null;
 
             return "DYE_COLLARS";
         }
