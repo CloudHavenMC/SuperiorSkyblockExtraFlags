@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class Messages {
     private static String hexPrefix = "&#";
     private static String islandProtectedMessage = "";
-    private static List<UUID> islandProtectedMessages = new ArrayList<>();
+    private static List<UUID> protectedMessageCooldowns = new ArrayList<>();
 
     // Sets message hex colors prefix
     public static void setHexPrefix(String hexPrefix) {
@@ -74,15 +74,15 @@ public class Messages {
         UUID uuid = p.getUniqueId();
 
         // Return if list contains player's uuid
-        if (islandProtectedMessages.contains(uuid)) return;
+        if (protectedMessageCooldowns.contains(uuid)) return;
         // Send island protected message
         Messages.send(p, islandProtectedMessage);
 
         // Add player's uuid to list
-        islandProtectedMessages.add(uuid);
+        protectedMessageCooldowns.add(uuid);
         // Remove player's uuid from list after 3,5 seconds
-        Bukkit.getScheduler().runTaskLater(SuperiorSkyblockExtraFlags.getInstance(), () -> {
-            islandProtectedMessages.remove(uuid);
+        Bukkit.getScheduler().runTaskLater(SuperiorSkyblockExtraFlags.getPlugin(), () -> {
+            protectedMessageCooldowns.remove(uuid);
         }, 70);
     }
 }

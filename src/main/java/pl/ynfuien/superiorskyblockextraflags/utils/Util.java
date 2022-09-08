@@ -30,9 +30,4 @@ public class Util {
     public static boolean isPapiEnabled() {
         return Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
-
-    // Get true if ss2 is enabled
-    public static boolean isSS2Enabled() {
-        return Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2");
-    }
 }

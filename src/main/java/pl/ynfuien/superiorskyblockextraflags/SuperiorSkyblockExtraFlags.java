@@ -1,55 +1,88 @@
 package pl.ynfuien.superiorskyblockextraflags;
 
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import pl.ynfuien.superiorskyblockextraflags.listeners.SuperiorInitializeListener;
+import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
+import com.bgsoftware.superiorskyblock.api.commands.SuperiorCommand;
+import com.bgsoftware.superiorskyblock.api.modules.PluginModule;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
+import pl.ynfuien.superiorskyblockextraflags.listeners.Listeners;
 import pl.ynfuien.superiorskyblockextraflags.utils.Logger;
 import pl.ynfuien.superiorskyblockextraflags.utils.Messages;
-import pl.ynfuien.superiorskyblockextraflags.utils.Util;
 
-public final class SuperiorSkyblockExtraFlags extends JavaPlugin {
+import java.io.File;
+import java.io.IOException;
+
+public final class SuperiorSkyblockExtraFlags extends PluginModule {
     private static SuperiorSkyblockExtraFlags instance;
+    private static SuperiorSkyblock plugin;
+
+
+    public SuperiorSkyblockExtraFlags() {
+        super("ExtraFlags", "Ynfuien");
+        instance = this;
+    }
 
     @Override
-    public void onEnable() {
-        // Set plugin instance
-        instance = this;
+    public void onEnable(SuperiorSkyblock plugin) {
+        // Plugin startup logic
+        SuperiorSkyblockExtraFlags.plugin = plugin;
 
         // Set logger prefix
-        Logger.setPrefix("&3[&9SuperiorSkyblockExtraFlags&3] &f");
-
-//        Util.setInstance(this);
-
-        // Get plugin manager
-        PluginManager pm = getServer().getPluginManager();
-
-        // Check if SuperiorSkyblock2 isn't on server
-        if (Util.isSS2Enabled()) {
-            Logger.logError("There is no SuperiorSkyblock2 on your server! Plugin can't work without it.");
-            pm.disablePlugin(this);
-            return;
-        }
+        Logger.setPrefix("&b[SuperiorSkyblock-ExtraFlags] ");
 
         // Save config
-        saveDefaultConfig();
+        File file = new File(instance.getModuleFolder(), "config.yml");
+        if (!file.exists()) instance.saveResource("config.yml");
+        FileConfiguration config = new YamlConfiguration();
+        try {
+            config.load(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidConfigurationException e) {
+            throw new RuntimeException(e);
+        }
         // Set message hex colors prefix
-        Messages.setHexPrefix(getConfig().getString("hex-prefix"));
+        Messages.setHexPrefix(config.getString("hex-prefix"));
         // Set island protected message
-        Messages.setIslandProtectedMessage(getConfig().getString("island-protected-message"));
+        Messages.setIslandProtectedMessage(config.getString("island-protected-message"));
 
         // Register island flags and privileges
-        pm.registerEvents(new SuperiorInitializeListener(this), this);
-
-        Logger.log("Plugin successfully enabled!");
+        Listeners.registerFlags();
     }
 
     @Override
-    public void onDisable() {
-        Logger.log("Plugin successfully disabled!");
+    public void onDisable(SuperiorSkyblock plugin) {
     }
 
-    // Gets plugin instance
+    @Override
+    public void onReload(SuperiorSkyblock plugin) {
+    }
+
+    @Override
+    public void loadData(SuperiorSkyblock plugin) {
+    }
+
+    @Override
+    public Listener[] getModuleListeners(SuperiorSkyblock superiorSkyblock) {
+        return Listeners.getListeners();
+    }
+
+    @Override
+    public SuperiorCommand[] getSuperiorCommands(SuperiorSkyblock superiorSkyblock) {
+        return null;
+    }
+
+    @Override
+    public SuperiorCommand[] getSuperiorAdminCommands(SuperiorSkyblock superiorSkyblock) {
+        return null;
+    }
+
     public static SuperiorSkyblockExtraFlags getInstance() {
         return instance;
+    }
+    public static SuperiorSkyblock getPlugin() {
+        return plugin;
     }
 }
