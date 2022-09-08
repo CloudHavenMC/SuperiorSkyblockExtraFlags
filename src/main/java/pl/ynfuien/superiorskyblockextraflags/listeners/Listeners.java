@@ -30,6 +30,7 @@ public class Listeners {
             "USE_CANDLES",
             "COLLECT_SWEET_BERRIES",
             "COLLECT_GLOW_BERRIES",
+            "COLLECT_HONEY",
             "USE_ANVILS",
             "USE_BELLS",
             "USE_BEACONS",

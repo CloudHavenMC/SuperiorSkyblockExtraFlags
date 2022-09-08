@@ -39,6 +39,7 @@ public class PlayerInteractListener implements Listener {
     // - CARVE_PUMPKINS
     // - COLLECT_SWEET_BERRIES
     // - COLLECT_GLOW_BERRIES
+    // - COLLECT_HONEY
     // - USE_JUKEBOXES
     // - USE_LECTERNS
     // - USE_ANVILS
@@ -84,15 +85,18 @@ public class PlayerInteractListener implements Listener {
 
     // Get appropriate permission to the appropriate block type
     private String getPermission(Action action, ItemStack item, Block b) {
+        // Get hand item material
+        Material hand = item != null ? item.getType() : Material.AIR;
+
         // If item isn't null and action is right click block or air
         if (item != null && (action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.RIGHT_CLICK_AIR))) {
             // Return privilege for bow
-            if (item.getType().equals(Material.BOW)) {
+            if (hand.equals(Material.BOW)) {
                 return "SHOOT_BOW";
             }
 
             // Return privilege for crossbow
-            if (item.getType().equals(Material.CROSSBOW)) {
+            if (hand.equals(Material.CROSSBOW)) {
                 return "SHOOT_CROSSBOW";
             }
         }
@@ -191,7 +195,7 @@ public class PlayerInteractListener implements Listener {
 
             // Return privilege for cake
             if (material.name().endsWith("CANDLE_CAKE")) {
-                if (item == null || !item.getType().equals(Material.FLINT_AND_STEEL)) {
+                if (!hand.equals(Material.FLINT_AND_STEEL)) {
                     return "EAT_CAKE";
                 }
             }
@@ -202,7 +206,7 @@ public class PlayerInteractListener implements Listener {
 
             // Return privilege for pumpkins
             if (material.equals(Material.PUMPKIN)) {
-                if (item != null && item.getType().equals(Material.SHEARS)) {
+                if (hand.equals(Material.SHEARS)) {
                     return "CARVE_PUMPKINS";
                 }
             }
@@ -272,8 +276,13 @@ public class PlayerInteractListener implements Listener {
             }
 
             // Return privilege for item frames
-            if (item != null && (item.getType().equals(Material.ITEM_FRAME) || item.getType().equals(Material.GLOW_ITEM_FRAME))) {
+            if (hand.equals(Material.ITEM_FRAME) || hand.equals(Material.GLOW_ITEM_FRAME)) {
                 return "USE_ITEM_FRAMES";
+            }
+
+            // Return privilege for collecting honey
+            if (material.equals(Material.BEE_NEST) || material.equals(Material.BEEHIVE)) {
+                if (hand.isItem() && (hand.equals(Material.SHEARS) || hand.equals(Material.GLASS_BOTTLE))) return "COLLECT_HONEY";
             }
 
             return null;
