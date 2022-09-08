@@ -68,7 +68,9 @@ public class Listeners {
             "CARVE_PUMPKINS",
             "USE_ELYTRA",
             "USE_NETHER_PORTAL",
-            "USE_END_PORTAL"
+            "USE_END_PORTAL",
+            "DYE_SHEEP",
+            "DYE_COLLARS"
     };
 
     public static void registerFlags(){
@@ -103,7 +105,8 @@ public class Listeners {
                 new PlayerTakeLecternBookListener(),
                 new PlayerItemConsumeListener(),
                 new EntityToggleGlideListener(),
-                new PlayerPortalListener()
+                new PlayerPortalListener(),
+                new SheepDyeWoolListener()
         };
     }
 }

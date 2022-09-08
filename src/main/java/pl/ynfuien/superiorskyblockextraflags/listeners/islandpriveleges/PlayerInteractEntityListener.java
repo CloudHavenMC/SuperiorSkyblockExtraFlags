@@ -1,13 +1,16 @@
 package pl.ynfuien.superiorskyblockextraflags.listeners.islandpriveleges;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import pl.ynfuien.superiorskyblockextraflags.utils.Util;
+
+import java.util.Arrays;
 
 public class PlayerInteractEntityListener implements Listener {
     // Island privileges that this event handles:
@@ -20,12 +23,15 @@ public class PlayerInteractEntityListener implements Listener {
         // Get entity
         Entity entity = e.getRightClicked();
 
+        // Get player
+        Player p = e.getPlayer();
+
         // Get island privilege
-        String permission = getPermission(entity);
+        String permission = getPermission(entity, p, e.getHand());
         // Return if no privilege was returned
         if (permission == null) return;
         // Get whether to cancel event
-        boolean cancelEvent = Util.checkIslandPrivilege(entity.getLocation(), e.getPlayer(), permission);
+        boolean cancelEvent = Util.checkIslandPrivilege(entity.getLocation(), p, permission);
 
         // Return if not cancel event
         if (!cancelEvent) return;
@@ -33,7 +39,7 @@ public class PlayerInteractEntityListener implements Listener {
         e.setCancelled(true);
     }
 
-    private String getPermission(Entity e) {
+    private String getPermission(Entity e, Player p, EquipmentSlot hand) {
         // Privileges for item frames
         if (e instanceof ItemFrame) {
             // Return privilege for item frame use, if no item is in it
@@ -48,6 +54,18 @@ public class PlayerInteractEntityListener implements Listener {
         // Return privilege for armor stands
         if (e instanceof ArmorStand) {
             return "USE_ARMOR_STANDS";
+        }
+
+        if (e instanceof Wolf || e instanceof Cat) {
+            Material item = p.getInventory().getItem(hand).getType();
+            if (!item.isItem() || !item.toString().endsWith("_DYE")) return null;
+
+            Tameable tameable = ((Tameable) e);
+            if (!tameable.isTamed()) return null;
+//            if (tameable.getOwner() == null) return null;
+            if (tameable.getOwner().equals(p)) return null;
+
+            return "DYE_COLLARS";
         }
 
         return null;
