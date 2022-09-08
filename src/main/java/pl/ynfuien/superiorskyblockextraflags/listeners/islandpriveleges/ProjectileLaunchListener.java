@@ -1,6 +1,8 @@
 package pl.ynfuien.superiorskyblockextraflags.listeners.islandpriveleges;
 
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -12,6 +14,7 @@ public class ProjectileLaunchListener implements Listener {
     // - THROW_EGGS
     // - THROW_SNOWBALLS
     // - THROW_POTIONS
+    // - THROW_EXPERIENCE_BOTTLES
 
     @EventHandler(ignoreCancelled = true)
     public void onProjectileLaunch(ProjectileLaunchEvent e) {
@@ -52,6 +55,11 @@ public class ProjectileLaunchListener implements Listener {
         // Return privilege for potions
         if (type.equals(EntityType.SPLASH_POTION)) {
             return "THROW_POTIONS";
+        }
+
+        // Return privilege for experience bottle
+        if (type.equals(EntityType.THROWN_EXP_BOTTLE)) {
+            return "THROW_EXPERIENCE_BOTTLES";
         }
 
         return null;
