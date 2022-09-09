@@ -10,7 +10,8 @@ messages:
   island-protected: '&c&lError | &7This island is protected.'
 
   # Island protected messages for specific permissions, so you can customize messages
-  # for every situation. To add new messages just follow the pattern.
+  # for every situation. To add new messages just follow the pattern. If you want to
+  # disable message, set it empty: ''
   specific-permissions:
     USE_ELYTRA: '&c&lError | &7You can''t fly on this island!'
     USE_BUTTONS: '&c&lError | &7You can''t use buttons on this island!'

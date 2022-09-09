@@ -19,25 +19,33 @@ import java.util.regex.Pattern;
 public class Messages {
     private static String hexPrefix = "&#";
     private static String islandProtectedMessage = "";
-    private static HashMap<String, String> specificMessages = new HashMap<>();
+    private static final HashMap<String, String> specificMessages = new HashMap<>();
     private static final List<UUID> protectedMessageCooldowns = new ArrayList<>();
 
 
     public static void setup(@Nullable ConfigurationSection section) {
+        if (section == null) {
+            Logger.logError("Config doesn't have 'messages' section!");
+            return;
+        }
+
         hexPrefix = section.getString("hex-prefix");
-        islandProtectedMessage = section.getString("island-protected");
+        islandProtectedMessage = replaceNewLines(section.getString("island-protected"));
 
         ConfigurationSection specificPermissions = section.getConfigurationSection("specific-permissions");
         for (String perm : specificPermissions.getKeys(false)) {
-            if (!Pattern.matches("^[A-Z0-9_]{3,}$", perm)) {
+            if (!Pattern.matches("^[a-zA-Z0-9_]{3,}$", perm)) {
                 Logger.logError(String.format("Specific permission '%s' is incorrect!", perm));
                 continue;
             }
 
-            specificMessages.put(perm.trim().toUpperCase(), specificPermissions.getString(perm));
+            specificMessages.put(perm.trim().toUpperCase(), replaceNewLines(specificPermissions.getString(perm)));
         }
 
         if (specificMessages.size() > 0) Logger.log(String.format("Loaded &e%d &bpermission specific messages!", specificMessages.size()));
+    }
+    private static String replaceNewLines(String text) {
+        return text.replaceAll("(?<!\\\\)\\\\n", "\n").replace("\\\\n", "\\n");
     }
 
     // Formats colors
@@ -47,7 +55,7 @@ public class Messages {
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
             String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, ChatColor.of(color.substring(1)).toString());
+            text = text.replace(color, ChatColor.of("#" + color.substring(hexPrefix.length())).toString());
             matcher = pattern.matcher(text);
         }
 
@@ -91,6 +99,7 @@ public class Messages {
         // Send island protected message
         String message = islandProtectedMessage;
         if (specificMessages.containsKey(permission)) message = specificMessages.get(permission);
+        if (message.length() == 0) return;
         Messages.send(p, message);
 
         // Add player's uuid to list
