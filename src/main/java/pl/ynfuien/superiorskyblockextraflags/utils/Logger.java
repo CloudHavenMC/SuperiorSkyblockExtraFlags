@@ -11,17 +11,22 @@ public class Logger {
     }
 
     // Logs message
+    private static void logColor(String message, String color) {
+        Messages.send(Bukkit.getConsoleSender(),  color + prefix + message);
+    }
+
+    // Logs message
     public static void log(String message) {
-        Messages.send(Bukkit.getConsoleSender(),  prefix + message);
+        logColor(message, "&b");
     }
 
     // Logs warning message
     public static void logWarning(String message) {
-        log("&e" + message);
+        logColor(message, "&e");
     }
 
     // Logs error message
     public static void logError(String message) {
-        log("&c" + message);
+        logColor(message, "&c");
     }
 }
