@@ -22,14 +22,6 @@ public class Messages {
     private static HashMap<String, String> specificMessages = new HashMap<>();
     private static final List<UUID> protectedMessageCooldowns = new ArrayList<>();
 
-    // Sets message hex colors prefix
-    public static void setHexPrefix(String hexPrefix) {
-        Messages.hexPrefix = hexPrefix;
-    }
-    // Sets island protected message
-    public static void setIslandProtectedMessage(String islandProtectedMessage) {
-        Messages.islandProtectedMessage = islandProtectedMessage;
-    }
 
     public static void setup(@Nullable ConfigurationSection section) {
         hexPrefix = section.getString("hex-prefix");
