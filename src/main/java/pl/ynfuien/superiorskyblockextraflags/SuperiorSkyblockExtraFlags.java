@@ -17,6 +17,7 @@ import java.io.IOException;
 public final class SuperiorSkyblockExtraFlags extends PluginModule {
     private static SuperiorSkyblockExtraFlags instance;
     private static SuperiorSkyblock plugin;
+    private static FileConfiguration config;
 
 
     public SuperiorSkyblockExtraFlags() {
@@ -30,12 +31,12 @@ public final class SuperiorSkyblockExtraFlags extends PluginModule {
         SuperiorSkyblockExtraFlags.plugin = plugin;
 
         // Set logger prefix
-        Logger.setPrefix("&b[SuperiorSkyblock-ExtraFlags] ");
+        Logger.setPrefix("[SuperiorSkyblock-ExtraFlags] ");
 
         // Save config
         File file = new File(instance.getModuleFolder(), "config.yml");
         if (!file.exists()) instance.saveResource("config.yml");
-        FileConfiguration config = new YamlConfiguration();
+        config = new YamlConfiguration();
         try {
             config.load(file);
         } catch (IOException e) {
@@ -43,10 +44,9 @@ public final class SuperiorSkyblockExtraFlags extends PluginModule {
         } catch (InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
-        // Set message hex colors prefix
-        Messages.setHexPrefix(config.getString("hex-prefix"));
-        // Set island protected message
-        Messages.setIslandProtectedMessage(config.getString("island-protected-message"));
+
+        // Setup messages
+        Messages.setup(config.getConfigurationSection("messages"));
 
         // Register island flags and privileges
         Listeners.registerFlags();
@@ -84,5 +84,8 @@ public final class SuperiorSkyblockExtraFlags extends PluginModule {
     }
     public static SuperiorSkyblock getPlugin() {
         return plugin;
+    }
+    public static FileConfiguration getConfig() {
+        return config;
     }
 }

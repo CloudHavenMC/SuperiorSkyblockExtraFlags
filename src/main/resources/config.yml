@@ -1,9 +1,28 @@
 # SuperiorSkyblockExtraFlags by Ynfuien
 
-# Prefix for hex colors in island-protected-message
-# Default: '&#'
-hex-prefix: '&#'
+messages:
+  # Prefix for hex colors in messages.
+  # Default: '&#'
+  hex-prefix: '&#'
 
-# Message that will appear when the player isn't allowed to do something on island
-# Default: '&c&lError | &7This island is protected.'
-island-protected-message: '&c&lError | &7This island is protected.'
+  # Message that will appear when the player isn't allowed to do something on island.
+  # Default: '&c&lError | &7This island is protected.'
+  island-protected: '&c&lError | &7This island is protected.'
+
+  # Island protected messages for specific permissions, so you can customize messages
+  # for every situation. To add new messages just follow the pattern.
+  specific-permissions:
+    USE_ELYTRA: '&c&lError | &7You can''t fly on this island!'
+    USE_BUTTONS: '&c&lError | &7You can''t use buttons on this island!'
+    # <permission>: '<message>'
+
+# Custom interact permissions are permissions that you can edit at your own will.
+# They restrict interaction with given blocks using RMB (right mouse button).
+# You can add to the list almost every block. If you don't want any additional permissions,
+# just comment items in the list.
+# The end permission for each block will be "INTERACT_<block>".
+# !! This function may not work for every block. !!
+# !! It's general option and I won't test it with every block. !!
+custom-interact-permissions:
+  - CRAFTING_TABLE # INTERACT_CRAFTING_TABLE
+  - SMITHING_TABLE # INTERACT_SMITHING_TABLE

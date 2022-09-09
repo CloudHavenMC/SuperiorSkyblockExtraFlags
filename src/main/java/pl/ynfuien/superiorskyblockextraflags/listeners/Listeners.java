@@ -2,23 +2,27 @@ package pl.ynfuien.superiorskyblockextraflags.listeners;
 
 import com.bgsoftware.superiorskyblock.api.island.IslandFlag;
 import com.bgsoftware.superiorskyblock.api.island.IslandPrivilege;
+import org.bukkit.Material;
 import org.bukkit.event.Listener;
+import pl.ynfuien.superiorskyblockextraflags.SuperiorSkyblockExtraFlags;
 import pl.ynfuien.superiorskyblockextraflags.listeners.islandflags.CreatureSpawnListener;
 import pl.ynfuien.superiorskyblockextraflags.listeners.islandpriveleges.*;
 import pl.ynfuien.superiorskyblockextraflags.utils.Logger;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Listeners {
     // Island flags array
-    private static String[] islandFlags = new String[] {
+    private static final String[] islandFlags = new String[] {
             "NATURAL_MONSTER_SPAWN_NORMAL",
             "NATURAL_MONSTER_SPAWN_NETHER",
             "NATURAL_MONSTER_SPAWN_THE_END"
     };
     // Island privileges array
-    private static String[] islandPrivileges = new String[] {
+    private static final String[] islandPrivileges = new String[] {
             "USE_BUTTONS",
             "USE_DOORS",
             "USE_TRAPDOORS",
@@ -74,18 +78,38 @@ public class Listeners {
             "DYE_COLLARS"
     };
 
+    public static List<Material> registeredCustomPerms = new ArrayList<>();
+
     public static void registerFlags(){
-        // Register all island flags
+        // Register island flags
         for (String islandFlag : islandFlags) {
             IslandFlag.register(islandFlag);
         }
-        Logger.log(MessageFormat.format("Registered &e{0} &bisland flags!", islandFlags.length));
+        Logger.log(String.format("Registered &e%d &bisland flags!", islandFlags.length));
 
-        // Register all island privileges
+        // Register island privileges
         for (String islandPrivilege : islandPrivileges) {
             IslandPrivilege.register(islandPrivilege);
         }
-        Logger.log(MessageFormat.format("Registered &e{0} &bisland privileges!", islandPrivileges.length));
+
+        // Custom interact privileges
+        List<String> customPerms = SuperiorSkyblockExtraFlags.getConfig().getStringList("custom-interact-permissions");
+        for (String b : customPerms) {
+            Material m = Material.matchMaterial(b);
+            if (m == null) {
+                Logger.logError(String.format("Block '%s' in 'custom-interact-permissions' is invalid!", b));
+                continue;
+            }
+
+            if (!m.isBlock()) {
+                Logger.logError(String.format("Block '%s' in 'custom-interact-permissions' is not a placeable block!", b));
+                continue;
+            }
+
+            IslandPrivilege.register(String.format("INTERACT_%s", m.name()));
+            registeredCustomPerms.add(m);
+        }
+        Logger.log(String.format("Registered &e%d &bisland privileges!", islandPrivileges.length + registeredCustomPerms.size()));
     }
 
     public static Listener[] getListeners() {

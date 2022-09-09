@@ -4,10 +4,13 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 import pl.ynfuien.superiorskyblockextraflags.SuperiorSkyblockExtraFlags;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -16,7 +19,8 @@ import java.util.regex.Pattern;
 public class Messages {
     private static String hexPrefix = "&#";
     private static String islandProtectedMessage = "";
-    private static List<UUID> protectedMessageCooldowns = new ArrayList<>();
+    private static HashMap<String, String> specificMessages = new HashMap<>();
+    private static final List<UUID> protectedMessageCooldowns = new ArrayList<>();
 
     // Sets message hex colors prefix
     public static void setHexPrefix(String hexPrefix) {
@@ -25,6 +29,23 @@ public class Messages {
     // Sets island protected message
     public static void setIslandProtectedMessage(String islandProtectedMessage) {
         Messages.islandProtectedMessage = islandProtectedMessage;
+    }
+
+    public static void setup(@Nullable ConfigurationSection section) {
+        hexPrefix = section.getString("hex-prefix");
+        islandProtectedMessage = section.getString("island-protected");
+
+        ConfigurationSection specificPermissions = section.getConfigurationSection("specific-permissions");
+        for (String perm : specificPermissions.getKeys(false)) {
+            if (!Pattern.matches("^[A-Z0-9_]{3,}$", perm)) {
+                Logger.logError(String.format("Specific permission '%s' is incorrect!", perm));
+                continue;
+            }
+
+            specificMessages.put(perm.trim().toUpperCase(), specificPermissions.getString(perm));
+        }
+
+        if (specificMessages.size() > 0) Logger.log(String.format("Loaded &e%d &bpermission specific messages!", specificMessages.size()));
     }
 
     // Formats colors
@@ -69,14 +90,16 @@ public class Messages {
     }
 
     // Sends island protected message to player
-    public static void sendIslandProtectedMessage(Player p) {
+    public static void sendIslandProtectedMessage(Player p, String permission) {
         // Get UUID
         UUID uuid = p.getUniqueId();
 
         // Return if list contains player's uuid
         if (protectedMessageCooldowns.contains(uuid)) return;
         // Send island protected message
-        Messages.send(p, islandProtectedMessage);
+        String message = islandProtectedMessage;
+        if (specificMessages.containsKey(permission)) message = specificMessages.get(permission);
+        Messages.send(p, message);
 
         // Add player's uuid to list
         protectedMessageCooldowns.add(uuid);

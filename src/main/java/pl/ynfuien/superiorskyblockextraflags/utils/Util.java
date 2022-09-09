@@ -21,7 +21,7 @@ public class Util {
         if (island.hasPermission(p, islandPrivilege)) return false;
 
         // Send island protected message to player
-        Messages.sendIslandProtectedMessage(p);
+        Messages.sendIslandProtectedMessage(p, permission);
         return true;
     }
 

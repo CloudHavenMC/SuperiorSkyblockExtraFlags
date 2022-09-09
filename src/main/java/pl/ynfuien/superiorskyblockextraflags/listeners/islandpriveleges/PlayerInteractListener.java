@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import pl.ynfuien.superiorskyblockextraflags.listeners.Listeners;
 import pl.ynfuien.superiorskyblockextraflags.utils.Util;
 
 import java.util.Arrays;
@@ -59,6 +60,8 @@ public class PlayerInteractListener implements Listener {
     // - USE_COMPARATORS
     // - USE_DAYLIGHT_DETECTORS
     // - USE_ITEM_FRAMES
+    //
+    // And custom interact permissions
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
@@ -284,6 +287,8 @@ public class PlayerInteractListener implements Listener {
             if (material.equals(Material.BEE_NEST) || material.equals(Material.BEEHIVE)) {
                 if (hand.isItem() && (hand.equals(Material.SHEARS) || hand.equals(Material.GLASS_BOTTLE))) return "COLLECT_HONEY";
             }
+
+            if (Listeners.registeredCustomPerms.contains(material)) return String.format("INTERACT_%s", material.name());
 
             return null;
         }
