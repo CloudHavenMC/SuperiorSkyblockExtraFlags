@@ -64,7 +64,9 @@ These flags enable or disable natural monster spawn separately for each world.
 - **DYE_COLLARS** - Allows to dye wolf/cat collar
 - **DYE_SHEEP** - Allows to dye sheep
 
-**Some privileges also deny from destroy block/entity even if player has `BREAK` privilege. These privileges are: `USE_ANVILS`, `USE_BELLS`, `USE_BEACONS`, `USE_BARRELS`, `USE_BREWING_STANDS`, `USE_COMPOSTERS`, `USE_SHULKER_BOXES`, `USE_ENDER_CHESTS`, `USE_ENCHANTING_TABLES`, `USE_HOPPERS`, `USE_DISPENSERS`, `USE_DROPPERS`, `USE_PRESSURE_PLATES`, `USE_FURNACES`, `USE_CHESTS`, `USE_ARMOR_STANDS`, `USE_ITEM_FRAMES`**
+**Some privileges also deny from destroying block/entity even if player has `BREAK` privilege. These privileges are: `USE_ANVILS`, `USE_BELLS`, `USE_BEACONS`, `USE_BARRELS`, `USE_BREWING_STANDS`, `USE_COMPOSTERS`, `USE_SHULKER_BOXES`, `USE_ENDER_CHESTS`, `USE_ENCHANTING_TABLES`, `USE_HOPPERS`, `USE_DISPENSERS`, `USE_DROPPERS`, `USE_PRESSURE_PLATES`, `USE_FURNACES`, `USE_CHESTS`, `USE_ARMOR_STANDS`, `USE_ITEM_FRAMES`**
+
+### Additionally, in the config you can set your own interact permissions for any blocks you want.
 
 # How to use
 ## Installation
@@ -103,11 +105,31 @@ If you want to give players access to change these flags and privileges, and I a
 ```yml
 # SuperiorSkyblockExtraFlags by Ynfuien
 
-# Prefix for hex colors
-# Default: '&#'
-hex-prefix: '&#'
+messages:
+  # Prefix for hex colors in messages.
+  # Default: '&#'
+  hex-prefix: '&#'
 
-# Message that will appear when the player isn't allowed to do something on island
-# Default: '&c&lError | &7This island is protected.'
-island-protected-message: '&c&lError | &7This island is protected.'
+  # Message that will appear when the player isn't allowed to do something on island.
+  # Default: '&c&lError | &7This island is protected.'
+  island-protected: '&c&lError | &7This island is protected.'
+
+  # Island protected messages for specific permissions, so you can customize messages
+  # for every situation. To add new messages just follow the pattern. If you want to
+  # disable message, set it empty: ''
+  specific-permissions:
+    USE_ELYTRA: '&c&lError | &7You can''t fly on this island!'
+    USE_BUTTONS: '&c&lError | &7You can''t use buttons on this island!'
+    # <permission>: '<message>'
+
+# Custom interact permissions are permissions that you can edit at your own will.
+# They restrict interaction with given blocks using RMB (right mouse button).
+# You can add to the list almost every block. If you don't want any additional permissions,
+# just comment items in the list.
+# The end permission for each block will be "INTERACT_<block>".
+# !! This function may not work for every block. !!
+# !! It's general option and I won't test it with every block. !!
+custom-interact-permissions:
+  - CRAFTING_TABLE # INTERACT_CRAFTING_TABLE
+  - SMITHING_TABLE # INTERACT_SMITHING_TABLE
 ```
