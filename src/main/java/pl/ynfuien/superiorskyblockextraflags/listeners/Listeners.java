@@ -89,7 +89,11 @@ public class Listeners {
 
         // Register island privileges
         for (String islandPrivilege : islandPrivileges) {
-            IslandPrivilege.register(islandPrivilege);
+            try {
+                IslandPrivilege.register(islandPrivilege);
+            } catch (IllegalStateException exc) {
+                Logger.logWarning(String.format("Island privilege '%s' is already registered!", islandPrivilege));
+            }
         }
 
         // Custom interact privileges
