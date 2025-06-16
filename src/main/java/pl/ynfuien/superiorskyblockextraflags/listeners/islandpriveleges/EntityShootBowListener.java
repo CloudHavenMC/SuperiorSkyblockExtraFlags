@@ -24,6 +24,8 @@ public class EntityShootBowListener implements Listener {
         // Get player
         Player p = (Player) entity;
 
+        // Is the bow real?
+        if (e.getBow() == null) return;
         // Get island privilege
         String permission = getPermission(e.getBow());
         // Return if no privilege was returned
